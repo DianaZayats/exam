@@ -11,12 +11,26 @@ def calculate_energy_cost(start_reading, end_reading, rate_per_kwh):
     consumed_kwh = end_reading - start_reading
     return consumed_kwh * rate_per_kwh
 
-if __name__ == "__main__":
+def get_user_input():
     try:
         start = int(input("Enter start reading: "))
         end = int(input("Enter end reading: "))
         rate = float(input("Enter rate per kWh: "))
-        cost = calculate_energy_cost(start, end, rate)
-        print(f"Total cost: ${cost:.2f}")
+        if start < 0 or end < 0:
+            print("Error: Meter readings cannot be negative.")
+            return None
+        return start, end, rate
     except ValueError as e:
         print(f"Error: {e}")
+        return None
+
+
+if __name__ == "__main__":
+    user_input = get_user_input()
+    if user_input:
+        start, end, rate = user_input
+        try:
+            cost = calculate_energy_cost(start, end, rate)
+            print(f"Total cost: ${cost:.2f}")
+        except ValueError as e:
+            print(f"Error: {e}")
